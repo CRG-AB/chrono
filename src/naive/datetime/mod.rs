@@ -474,7 +474,7 @@ impl NaiveDateTime {
     ///
     /// let d = from_ymd(2016, 7, 8);
     /// let hms = |h, m, s| d.and_hms(h, m, s);
-    /// assert_eq!(hms(3, 5, 7).checked_add_signed(Duration::zero()),
+    /// assert_eq!(hms(3, 5, 7).checked_add_signed(Duration::ZERO),
     ///            Some(hms(3, 5, 7)));
     /// assert_eq!(hms(3, 5, 7).checked_add_signed(Duration::seconds(1)),
     ///            Some(hms(3, 5, 8)));
@@ -506,7 +506,7 @@ impl NaiveDateTime {
     /// # let from_ymd = NaiveDate::from_ymd;
     /// # let hmsm = |h, m, s, milli| from_ymd(2016, 7, 8).and_hms_milli(h, m, s, milli);
     /// let leap = hmsm(3, 5, 59, 1_300);
-    /// assert_eq!(leap.checked_add_signed(Duration::zero()),
+    /// assert_eq!(leap.checked_add_signed(Duration::ZERO),
     ///            Some(hmsm(3, 5, 59, 1_300)));
     /// assert_eq!(leap.checked_add_signed(Duration::milliseconds(-500)),
     ///            Some(hmsm(3, 5, 59, 800)));
@@ -551,7 +551,7 @@ impl NaiveDateTime {
     ///
     /// let d = from_ymd(2016, 7, 8);
     /// let hms = |h, m, s| d.and_hms(h, m, s);
-    /// assert_eq!(hms(3, 5, 7).checked_sub_signed(Duration::zero()),
+    /// assert_eq!(hms(3, 5, 7).checked_sub_signed(Duration::ZERO),
     ///            Some(hms(3, 5, 7)));
     /// assert_eq!(hms(3, 5, 7).checked_sub_signed(Duration::seconds(1)),
     ///            Some(hms(3, 5, 6)));
@@ -583,7 +583,7 @@ impl NaiveDateTime {
     /// # let from_ymd = NaiveDate::from_ymd;
     /// # let hmsm = |h, m, s, milli| from_ymd(2016, 7, 8).and_hms_milli(h, m, s, milli);
     /// let leap = hmsm(3, 5, 59, 1_300);
-    /// assert_eq!(leap.checked_sub_signed(Duration::zero()),
+    /// assert_eq!(leap.checked_sub_signed(Duration::ZERO),
     ///            Some(hmsm(3, 5, 59, 1_300)));
     /// assert_eq!(leap.checked_sub_signed(Duration::milliseconds(200)),
     ///            Some(hmsm(3, 5, 59, 1_100)));
@@ -1238,7 +1238,7 @@ impl Timelike for NaiveDateTime {
 ///
 /// let d = from_ymd(2016, 7, 8);
 /// let hms = |h, m, s| d.and_hms(h, m, s);
-/// assert_eq!(hms(3, 5, 7) + Duration::zero(),             hms(3, 5, 7));
+/// assert_eq!(hms(3, 5, 7) + Duration::ZERO,             hms(3, 5, 7));
 /// assert_eq!(hms(3, 5, 7) + Duration::seconds(1),         hms(3, 5, 8));
 /// assert_eq!(hms(3, 5, 7) + Duration::seconds(-1),        hms(3, 5, 6));
 /// assert_eq!(hms(3, 5, 7) + Duration::seconds(3600 + 60), hms(4, 6, 7));
@@ -1259,7 +1259,7 @@ impl Timelike for NaiveDateTime {
 /// # let from_ymd = NaiveDate::from_ymd;
 /// # let hmsm = |h, m, s, milli| from_ymd(2016, 7, 8).and_hms_milli(h, m, s, milli);
 /// let leap = hmsm(3, 5, 59, 1_300);
-/// assert_eq!(leap + Duration::zero(),             hmsm(3, 5, 59, 1_300));
+/// assert_eq!(leap + Duration::ZERO,             hmsm(3, 5, 59, 1_300));
 /// assert_eq!(leap + Duration::milliseconds(-500), hmsm(3, 5, 59, 800));
 /// assert_eq!(leap + Duration::milliseconds(500),  hmsm(3, 5, 59, 1_800));
 /// assert_eq!(leap + Duration::milliseconds(800),  hmsm(3, 6, 0, 100));
@@ -1304,7 +1304,7 @@ impl AddAssign<OldDuration> for NaiveDateTime {
 ///
 /// let d = from_ymd(2016, 7, 8);
 /// let hms = |h, m, s| d.and_hms(h, m, s);
-/// assert_eq!(hms(3, 5, 7) - Duration::zero(),             hms(3, 5, 7));
+/// assert_eq!(hms(3, 5, 7) - Duration::ZERO,             hms(3, 5, 7));
 /// assert_eq!(hms(3, 5, 7) - Duration::seconds(1),         hms(3, 5, 6));
 /// assert_eq!(hms(3, 5, 7) - Duration::seconds(-1),        hms(3, 5, 8));
 /// assert_eq!(hms(3, 5, 7) - Duration::seconds(3600 + 60), hms(2, 4, 7));
@@ -1325,7 +1325,7 @@ impl AddAssign<OldDuration> for NaiveDateTime {
 /// # let from_ymd = NaiveDate::from_ymd;
 /// # let hmsm = |h, m, s, milli| from_ymd(2016, 7, 8).and_hms_milli(h, m, s, milli);
 /// let leap = hmsm(3, 5, 59, 1_300);
-/// assert_eq!(leap - Duration::zero(),            hmsm(3, 5, 59, 1_300));
+/// assert_eq!(leap - Duration::ZERO,            hmsm(3, 5, 59, 1_300));
 /// assert_eq!(leap - Duration::milliseconds(200), hmsm(3, 5, 59, 1_100));
 /// assert_eq!(leap - Duration::milliseconds(500), hmsm(3, 5, 59, 800));
 /// assert_eq!(leap - Duration::seconds(60),       hmsm(3, 5, 0, 300));

@@ -1,3 +1,5 @@
+use num_traits::ToPrimitive;
+
 use super::NaiveDateTime;
 use crate::naive::{NaiveDate, MAX_DATE, MIN_DATE};
 use crate::oldtime::Duration;
@@ -47,20 +49,28 @@ fn test_datetime_add() {
         max_days_from_year_0 + Duration::seconds(86399),
         Some((MAX_DATE.year(), 12, 31, 23, 59, 59)),
     );
+
+    const MILLIS_PER_SEC: i64 = 1000;
+    const NANOS_PER_MILLI: i32 = 1000_000;
+    const NANOS_PER_SEC: i32 = 1_000_000_000;
+
+    let maxDurationMS = Duration::new(i64::MAX / MILLIS_PER_SEC, (i64::MAX % MILLIS_PER_SEC) as i32 * NANOS_PER_MILLI);
+    let minDurationMS = Duration::new(i64::MIN / MILLIS_PER_SEC - 1, NANOS_PER_SEC + (i64::MIN % MILLIS_PER_SEC) as i32 * NANOS_PER_MILLI);
+
     check((0, 1, 1, 0, 0, 0), max_days_from_year_0 + Duration::seconds(86_400), None);
-    check((0, 1, 1, 0, 0, 0), Duration::max_value(), None);
+    check((0, 1, 1, 0, 0, 0), maxDurationMS, None);
 
     let min_days_from_year_0 = MIN_DATE.signed_duration_since(NaiveDate::from_ymd(0, 1, 1));
     check((0, 1, 1, 0, 0, 0), min_days_from_year_0, Some((MIN_DATE.year(), 1, 1, 0, 0, 0)));
     check((0, 1, 1, 0, 0, 0), min_days_from_year_0 - Duration::seconds(1), None);
-    check((0, 1, 1, 0, 0, 0), Duration::min_value(), None);
+    check((0, 1, 1, 0, 0, 0), minDurationMS, None);
 }
 
 #[test]
 fn test_datetime_sub() {
     let ymdhms = |y, m, d, h, n, s| NaiveDate::from_ymd(y, m, d).and_hms(h, n, s);
     let since = NaiveDateTime::signed_duration_since;
-    assert_eq!(since(ymdhms(2014, 5, 6, 7, 8, 9), ymdhms(2014, 5, 6, 7, 8, 9)), Duration::zero());
+    assert_eq!(since(ymdhms(2014, 5, 6, 7, 8, 9), ymdhms(2014, 5, 6, 7, 8, 9)), Duration::ZERO);
     assert_eq!(
         since(ymdhms(2014, 5, 6, 7, 8, 10), ymdhms(2014, 5, 6, 7, 8, 9)),
         Duration::seconds(1)
@@ -218,7 +228,7 @@ fn test_datetime_add_sub_invariant() {
     let base = NaiveDate::from_ymd(2000, 1, 1).and_hms(0, 0, 0);
     let t = -946684799990000;
     let time = base + Duration::microseconds(t);
-    assert_eq!(t, time.signed_duration_since(base).num_microseconds().unwrap());
+    assert_eq!(t, time.signed_duration_since(base).whole_microseconds().to_i64().unwrap());
 }
 
 #[test]
