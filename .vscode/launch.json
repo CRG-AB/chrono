@@ -8,12 +8,12 @@
             "name": "Run Test Debugger",
             "type": "cppvsdbg",
             "request": "launch",
-            "program": "${workspaceFolder}/target/debug/buggin-70708b3916187eeb.exe",
+            "program": "${workspaceFolder}/target/debug/deps/chrono-ddd1c9dbf2216e5f.exe",
             "args": [],
             "stopAtEntry": false,
             "cwd": "${workspaceFolder}",
             "environment": [],
-            "externalConsole": true,
+            "console": "integratedTerminal",
             "preLaunchTask": "cargo test build",
         }
     ]
