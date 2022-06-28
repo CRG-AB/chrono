@@ -6,6 +6,7 @@ use core::fmt;
 use core::marker::Sized;
 use core::ops::{Add, Sub};
 use datetime::DateTime;
+use num_traits::ToPrimitive;
 use oldtime::Duration;
 #[cfg(any(feature = "std", test))]
 use std;
@@ -150,7 +151,7 @@ impl<Tz: TimeZone> DurationRound for DateTime<Tz> {
     type Err = RoundingError;
 
     fn duration_round(self, duration: Duration) -> Result<Self, Self::Err> {
-        if let Some(span) = duration.num_nanoseconds() {
+        if let Some(span) = duration.whole_nanoseconds().to_i64() {
             if self.timestamp().abs() > MAX_SECONDS_TIMESTAMP_FOR_NANOS {
                 return Err(RoundingError::TimestampExceedsLimit);
             }
@@ -179,7 +180,7 @@ impl<Tz: TimeZone> DurationRound for DateTime<Tz> {
     }
 
     fn duration_trunc(self, duration: Duration) -> Result<Self, Self::Err> {
-        if let Some(span) = duration.num_nanoseconds() {
+        if let Some(span) = duration.whole_nanoseconds().to_i64() {
             if self.timestamp().abs() > MAX_SECONDS_TIMESTAMP_FOR_NANOS {
                 return Err(RoundingError::TimestampExceedsLimit);
             }

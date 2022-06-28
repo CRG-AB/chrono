@@ -434,7 +434,7 @@ impl NaiveDateTime {
     ///
     /// let d = from_ymd(2016, 7, 8);
     /// let hms = |h, m, s| d.and_hms(h, m, s);
-    /// assert_eq!(hms(3, 5, 7).checked_add_signed(Duration::zero()),
+    /// assert_eq!(hms(3, 5, 7).checked_add_signed(Duration::ZERO),
     ///            Some(hms(3, 5, 7)));
     /// assert_eq!(hms(3, 5, 7).checked_add_signed(Duration::seconds(1)),
     ///            Some(hms(3, 5, 8)));
@@ -470,7 +470,7 @@ impl NaiveDateTime {
     /// # let from_ymd = NaiveDate::from_ymd;
     /// # let hmsm = |h, m, s, milli| from_ymd(2016, 7, 8).and_hms_milli(h, m, s, milli);
     /// let leap = hmsm(3, 5, 59, 1_300);
-    /// assert_eq!(leap.checked_add_signed(Duration::zero()),
+    /// assert_eq!(leap.checked_add_signed(Duration::ZERO),
     ///            Some(hmsm(3, 5, 59, 1_300)));
     /// assert_eq!(leap.checked_add_signed(Duration::milliseconds(-500)),
     ///            Some(hmsm(3, 5, 59, 800)));
@@ -517,7 +517,7 @@ impl NaiveDateTime {
     ///
     /// let d = from_ymd(2016, 7, 8);
     /// let hms = |h, m, s| d.and_hms(h, m, s);
-    /// assert_eq!(hms(3, 5, 7).checked_sub_signed(Duration::zero()),
+    /// assert_eq!(hms(3, 5, 7).checked_sub_signed(Duration::ZERO),
     ///            Some(hms(3, 5, 7)));
     /// assert_eq!(hms(3, 5, 7).checked_sub_signed(Duration::seconds(1)),
     ///            Some(hms(3, 5, 6)));
@@ -553,7 +553,7 @@ impl NaiveDateTime {
     /// # let from_ymd = NaiveDate::from_ymd;
     /// # let hmsm = |h, m, s, milli| from_ymd(2016, 7, 8).and_hms_milli(h, m, s, milli);
     /// let leap = hmsm(3, 5, 59, 1_300);
-    /// assert_eq!(leap.checked_sub_signed(Duration::zero()),
+    /// assert_eq!(leap.checked_sub_signed(Duration::ZERO),
     ///            Some(hmsm(3, 5, 59, 1_300)));
     /// assert_eq!(leap.checked_sub_signed(Duration::milliseconds(200)),
     ///            Some(hmsm(3, 5, 59, 1_100)));
@@ -1216,7 +1216,7 @@ impl hash::Hash for NaiveDateTime {
 ///
 /// let d = from_ymd(2016, 7, 8);
 /// let hms = |h, m, s| d.and_hms(h, m, s);
-/// assert_eq!(hms(3, 5, 7) + Duration::zero(),             hms(3, 5, 7));
+/// assert_eq!(hms(3, 5, 7) + Duration::ZERO,             hms(3, 5, 7));
 /// assert_eq!(hms(3, 5, 7) + Duration::seconds(1),         hms(3, 5, 8));
 /// assert_eq!(hms(3, 5, 7) + Duration::seconds(-1),        hms(3, 5, 6));
 /// assert_eq!(hms(3, 5, 7) + Duration::seconds(3600 + 60), hms(4, 6, 7));
@@ -1239,7 +1239,7 @@ impl hash::Hash for NaiveDateTime {
 /// # let from_ymd = NaiveDate::from_ymd;
 /// # let hmsm = |h, m, s, milli| from_ymd(2016, 7, 8).and_hms_milli(h, m, s, milli);
 /// let leap = hmsm(3, 5, 59, 1_300);
-/// assert_eq!(leap + Duration::zero(),             hmsm(3, 5, 59, 1_300));
+/// assert_eq!(leap + Duration::ZERO,             hmsm(3, 5, 59, 1_300));
 /// assert_eq!(leap + Duration::milliseconds(-500), hmsm(3, 5, 59, 800));
 /// assert_eq!(leap + Duration::milliseconds(500),  hmsm(3, 5, 59, 1_800));
 /// assert_eq!(leap + Duration::milliseconds(800),  hmsm(3, 6, 0, 100));
@@ -1286,7 +1286,7 @@ impl AddAssign<OldDuration> for NaiveDateTime {
 ///
 /// let d = from_ymd(2016, 7, 8);
 /// let hms = |h, m, s| d.and_hms(h, m, s);
-/// assert_eq!(hms(3, 5, 7) - Duration::zero(),             hms(3, 5, 7));
+/// assert_eq!(hms(3, 5, 7) - Duration::ZERO,             hms(3, 5, 7));
 /// assert_eq!(hms(3, 5, 7) - Duration::seconds(1),         hms(3, 5, 6));
 /// assert_eq!(hms(3, 5, 7) - Duration::seconds(-1),        hms(3, 5, 8));
 /// assert_eq!(hms(3, 5, 7) - Duration::seconds(3600 + 60), hms(2, 4, 7));
@@ -1309,7 +1309,7 @@ impl AddAssign<OldDuration> for NaiveDateTime {
 /// # let from_ymd = NaiveDate::from_ymd;
 /// # let hmsm = |h, m, s, milli| from_ymd(2016, 7, 8).and_hms_milli(h, m, s, milli);
 /// let leap = hmsm(3, 5, 59, 1_300);
-/// assert_eq!(leap - Duration::zero(),            hmsm(3, 5, 59, 1_300));
+/// assert_eq!(leap - Duration::ZERO,            hmsm(3, 5, 59, 1_300));
 /// assert_eq!(leap - Duration::milliseconds(200), hmsm(3, 5, 59, 1_100));
 /// assert_eq!(leap - Duration::milliseconds(500), hmsm(3, 5, 59, 800));
 /// assert_eq!(leap - Duration::seconds(60),       hmsm(3, 5, 0, 300));
@@ -2247,6 +2247,7 @@ pub mod serde {
 mod tests {
     use super::NaiveDateTime;
     use naive::{NaiveDate, MAX_DATE, MIN_DATE};
+    use num_traits::ToPrimitive;
     use oldtime::Duration;
     use std::i64;
     use Datelike;
@@ -2304,12 +2305,20 @@ mod tests {
             Some((MAX_DATE.year(), 12, 31, 23, 59, 59)),
         );
         check((0, 1, 1, 0, 0, 0), max_days_from_year_0 + Duration::seconds(86_400), None);
-        check((0, 1, 1, 0, 0, 0), Duration::max_value(), None);
+
+        const MILLIS_PER_SEC: i64 = 1000;
+        const NANOS_PER_MILLI: i32 = 1000_000;
+        const NANOS_PER_SEC: i32 = 1_000_000_000;
+
+        let maxDurationMS = Duration::new(i64::MAX / MILLIS_PER_SEC, (i64::MAX % MILLIS_PER_SEC) as i32 * NANOS_PER_MILLI);
+        let minDurationMS = Duration::new(i64::MIN / MILLIS_PER_SEC - 1, NANOS_PER_SEC + (i64::MIN % MILLIS_PER_SEC) as i32 * NANOS_PER_MILLI);
+
+        check((0, 1, 1, 0, 0, 0), maxDurationMS, None);
 
         let min_days_from_year_0 = MIN_DATE.signed_duration_since(NaiveDate::from_ymd(0, 1, 1));
         check((0, 1, 1, 0, 0, 0), min_days_from_year_0, Some((MIN_DATE.year(), 1, 1, 0, 0, 0)));
         check((0, 1, 1, 0, 0, 0), min_days_from_year_0 - Duration::seconds(1), None);
-        check((0, 1, 1, 0, 0, 0), Duration::min_value(), None);
+        check((0, 1, 1, 0, 0, 0), minDurationMS, None);
     }
 
     #[test]
@@ -2318,7 +2327,7 @@ mod tests {
         let since = NaiveDateTime::signed_duration_since;
         assert_eq!(
             since(ymdhms(2014, 5, 6, 7, 8, 9), ymdhms(2014, 5, 6, 7, 8, 9)),
-            Duration::zero()
+            Duration::ZERO
         );
         assert_eq!(
             since(ymdhms(2014, 5, 6, 7, 8, 10), ymdhms(2014, 5, 6, 7, 8, 9)),
@@ -2482,7 +2491,7 @@ mod tests {
         let base = NaiveDate::from_ymd(2000, 1, 1).and_hms(0, 0, 0);
         let t = -946684799990000;
         let time = base + Duration::microseconds(t);
-        assert_eq!(t, time.signed_duration_since(base).num_microseconds().unwrap());
+        assert_eq!(t, time.signed_duration_since(base).whole_microseconds().to_i64().unwrap());
     }
 
     #[test]

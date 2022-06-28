@@ -725,15 +725,15 @@ pub struct DelayedFormat<I> {
     off: Option<(String, FixedOffset)>,
     /// An iterator returning formatting items.
     items: I,
-    /// Locale used for text.
-    locale: Option<Locale>,
+    // Locale used for text.
+    //locale: Option<Locale>,
 }
 
 #[cfg(any(feature = "alloc", feature = "std", test))]
 impl<'a, I: Iterator<Item = B> + Clone, B: Borrow<Item<'a>>> DelayedFormat<I> {
     /// Makes a new `DelayedFormat` value out of local date and time.
     pub fn new(date: Option<NaiveDate>, time: Option<NaiveTime>, items: I) -> DelayedFormat<I> {
-        DelayedFormat { date: date, time: time, off: None, items: items, locale: None }
+        DelayedFormat { date: date, time: time, off: None, items: items, /*locale: None*/ }
     }
 
     /// Makes a new `DelayedFormat` value out of local date and time and UTC offset.
@@ -752,7 +752,7 @@ impl<'a, I: Iterator<Item = B> + Clone, B: Borrow<Item<'a>>> DelayedFormat<I> {
             time: time,
             off: Some(name_and_diff),
             items: items,
-            locale: None,
+            /*locale: None,*/
         }
     }
 

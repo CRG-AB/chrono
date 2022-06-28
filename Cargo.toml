@@ -36,7 +36,7 @@ __doctest = []
 
 [dependencies]
 libc = { version = "0.2.69", optional = true }
-time = { version = "0.1.43", optional = true }
+time = { version = "0.3.11", optional = true }
 num-integer = { version = "0.1.36", default-features = false }
 num-traits = { version = "0.2", default-features = false }
 rustc-serialize = { version = "0.3.20", optional = true }
@@ -53,7 +53,7 @@ winapi = { version = "0.3.0", features = ["std", "minwinbase", "minwindef", "tim
 [dev-dependencies]
 serde_json = { version = "1" }
 serde_derive = { version = "1", default-features = false }
-bincode = { version = "0.8.0" }
+bincode = { version = "1.3.3" }
 num-iter = { version = "0.1.35", default-features = false }
 criterion = { version = "0.3" }
 doc-comment = { version = "0.3" }
